@@ -62,9 +62,12 @@ background-color: rgba(10,10,10,0.6 );
                        @if (Auth::check())
                         
                         <li> <a href="{{ url('/home') }}"> <i class="fa fa-btn fa-desktop"></i> Dashboard</a> </li>
-                        <li> <a href="{{route('categoris.index')}}"> 
-                            <i class="fa fa-btn fa-pencil"></i> Categori </a> </li>
+
                      @endif
+                     @role('admin')
+                          <li> <a href="{{route('categoris.index')}}"> 
+                            <i class="fa fa-btn fa-pencil"></i> Categori </a> </li>
+                     @endrole
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -100,7 +103,7 @@ background-color: rgba(10,10,10,0.6 );
                 </div>
             </div>
         </nav>
-
+        @include('layouts._flash')
         @yield('content')
     </div>
 

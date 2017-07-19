@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Categori;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
+use Session;
 
 class CategoriController extends Controller
 {
@@ -16,14 +17,29 @@ class CategoriController extends Controller
      */
     public function index(Request $request, Builder $htmlBuilder)
     {
-         if($request->ajax())
-         {
+        if($request->ajax())
+        {
             $categoris = Categori::select(['id','categori']);
-            return Datatables::of($categoris)->make(true); 
-         }
-         $html = $htmlBuilder 
-        -> addColumn(['data'=>'categori','name'=>'categori','title'=>'Categori']); 
+            /* return Datatables::of($authors)->make(true); */
+            return Datatables::of($categoris)
+            ->addColumn('action',function($categori){
+                return view('datatable._action',
+                    [
+                    /* 'model'   => $author,
+                    'form_url'=>route('authors.destroy',$author->id), */
+                    'edit_url'=>route('categoris.edit',$categori->id),
+                    
+                    ]);
+        })->make(true);
+
+        }
+        $html = $htmlBuilder 
+       /* -> addColumn(['data'=>'name','name'=>'name','title'=>'Nama']); */
+       -> addColumn(['data'=>'categori','name'=>'categori','title'=>'Categori'])
+       -> addColumn(['data'=>'action','name'=>'action','title'=>'','orderable'=>false,
+        'searchable'=>false]);
         return view('categoris.index')->with(compact('html'));
+        
     }
 
     /**
@@ -33,7 +49,7 @@ class CategoriController extends Controller
      */
     public function create()
     {
-        //
+        return view('categoris.create');
     }
 
     /**
@@ -44,7 +60,13 @@ class CategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,['categori'=>'required|unique:categoris']);
+        $categori = Categori::create($request->all());
+        Session::flash("flash_notification", [
+                "level"=>"success",
+                "message"=>"Berhasil menyimpan $categori->categori"
+            ]); 
+        return redirect('admin/categoris');
     }
 
     /**

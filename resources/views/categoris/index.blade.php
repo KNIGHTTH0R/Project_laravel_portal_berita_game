@@ -15,8 +15,10 @@
  				</div>
  				<div class="panel-body">
  					 {!! $html->table(['class'=>'table-striped']) !!} 
- 					
- 				</div>
+ 					 <p><a class="btn btn-primary" href="{{url('/admin/categoris/create')}}">
+ 					<i class="fa fa-btn fa-plus-circle"></i> Tambah</a></p>
+ 					{!! $html->table(['class'=>'table-striped']) !!}
+					 
  				
  				</div> 
  			</div>
