@@ -11,6 +11,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <link href="/css/jquery.dataTables.css" rel="stylesheet">
+    <link href="/css/dataTables.bootstrap.css" rel="stylesheet">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
@@ -60,6 +62,8 @@ background-color: rgba(10,10,10,0.6 );
                        @if (Auth::check())
                         
                         <li> <a href="{{ url('/home') }}"> <i class="fa fa-btn fa-desktop"></i> Dashboard</a> </li>
+                        <li> <a href="{{route('categoris.index')}}"> 
+                            <i class="fa fa-btn fa-pencil"></i> Categori </a> </li>
                      @endif
                     </ul>
 
@@ -102,6 +106,8 @@ background-color: rgba(10,10,10,0.6 );
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
     @yield('script')
 </body>
 </html>

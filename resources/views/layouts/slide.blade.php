@@ -1,7 +1,7 @@
 
    <div class="container-fluid">		
 	<br/>
-	<div class="col-md-10  col-md-offset-1">
+	<div class="col-md-8  col-md-offset-2">
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 			<!-- Indicators -->
 			<ol class="carousel-indicators">
