@@ -25,4 +25,5 @@ Route::get('/home', 'HomeController@index');
 Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']], function(){
 		Route::resource('categoris','CategoriController');
 		Route::resource('beritas','BeritaController');
+		Route::resource('guests','GuestController');
 	});
