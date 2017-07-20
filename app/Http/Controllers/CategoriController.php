@@ -25,8 +25,8 @@ class CategoriController extends Controller
             ->addColumn('action',function($categori){
                 return view('datatable._action',
                     [
-                    /* 'model'   => $author,
-                    'form_url'=>route('authors.destroy',$author->id), */
+                    'model'   => $categori,
+                    'form_url'=>route('categoris.destroy',$categori->id), 
                     'edit_url'=>route('categoris.edit',$categori->id),
                     
                     ]);
@@ -88,7 +88,8 @@ class CategoriController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categori = Categori::find($id);
+        return view('categoris.edit')->with(compact('categori'));
     }
 
     /**
@@ -100,9 +101,15 @@ class CategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, ['categori' => 'required|unique:categoris,categori,'. $id]);
+        $categori = Categori::find($id);
+        $categori->update($request->only('categori'));
+            Session::flash("flash_notification", [
+            "level"=>"success",
+            "message"=>"Berhasil menyimpan $categori->categori"
+            ]);
+        return redirect()->route('categoris.index');
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -111,6 +118,12 @@ class CategoriController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Categori::destroy($id);
+        if(!Categori::destroy($id)) return redirect()->back();
+        Session::flash("flash_notification", [
+        "level"=>"success",
+        "message"=>"Categori berhasil dihapus"
+        ]);
+        return redirect()->route('categoris.index');
     }
 }

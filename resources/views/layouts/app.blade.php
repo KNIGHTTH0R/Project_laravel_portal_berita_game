@@ -67,6 +67,8 @@ background-color: rgba(10,10,10,0.6 );
                      @role('admin')
                           <li> <a href="{{route('categoris.index')}}"> 
                             <i class="fa fa-btn fa-pencil"></i> Categori </a> </li>
+                          <li> <a href="{{route('beritas.index')}}">
+                            <i class="fa fa-btn fa-address-book"></i> Berita </a> </li>
                      @endrole
                     </ul>
 
