@@ -7,6 +7,9 @@ use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Session;
 use App\Berita;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\StoreBeritaRequest;
+use App\Http\Requests\UpdateBeritaRequest;
 
 class BeritaController extends Controller
 {
@@ -20,7 +23,11 @@ class BeritaController extends Controller
         //
     if ($request->ajax()) {
             $beritas = Berita::with('categori');
-            return Datatables::of($beritas)->addColumn('action', function($beritas){
+            return Datatables::of($beritas)
+            ->addColumn('cover', function($beritas){
+                return '<img src="/img/'.$beritas->cover. '" height="100px" width="100px">';
+            })
+            ->addColumn('action', function($beritas){
             return view('datatable._action',[
                 'model'     => $beritas,
                 'form_url'  => route('beritas.destroy', $beritas->id),
@@ -31,6 +38,7 @@ class BeritaController extends Controller
         })->make(true);
     }
     $html = $htmlBuilder
+            ->addColumn(['data'=>'cover','name'=>'cover','title'=>'Cover'])
             ->addColumn(['data'=>'judul','name'=>'judul','title'=>'Judul'])
             ->addColumn(['data'=>'deskripsi','name'=>'deskripsi','title'=>'Deskripsi'])
             ->addColumn(['data'=>'categori.categori','name'=>'categori.categori','title'=>'Categori'])
@@ -55,16 +63,16 @@ class BeritaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBeritaRequest $request)
     {
         
-        /* yang  sebelum dibuat request */
+        /* yang  sebelum dibuat request 
         $this->validate($request,[
             'judul' =>'required|unique:beritas,judul',
             'categori_id'=>'required|exists:categoris,id',
             'deskripsi'=>'required|string',
             'cover'=>'image|max:10000'
-            ]); 
+            ]); */
         $berita = Berita::create($request->except('cover'));
         //isi file cover jika ada cover yang di upload
         if($request->hasFile('cover')) {
@@ -77,7 +85,7 @@ class BeritaController extends Controller
             //menyimpan cover ke folder public/img
             $destinationPath = public_path() . DIRECTORY_SEPARATOR .'img';
             $uploded_cover->move($destinationPath,$filename);
-            //mengisi field cover di book dengan file name yang baru di buat
+            //mengisi field cover di berita dengan file name yang baru di buat
             $berita->cover = $filename;
             $berita->save();
         }
@@ -108,6 +116,8 @@ class BeritaController extends Controller
     public function edit($id)
     {
         //
+        $berita =Berita::find($id);
+        return view('beritas.edit')->with(compact('berita'));
     }
 
     /**
@@ -117,9 +127,52 @@ class BeritaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBeritaRequest $request, $id)
     {
         //
+         
+
+        $berita = Berita::find($id);
+        if (!$berita->update($request->all())) return redirect()->back();
+
+        //isi file cover jika ada cover yang di upload
+
+        if($request->hasFile('cover')) {
+            //mengambil cover yang di upload berikut extension
+            $filename=null;
+            $uploded_cover = $request->file('cover');
+            $extension = $uploded_cover->getClientOriginalExtension();
+            //membuat nama file random berikut extensi
+            $filename=md5(time()) .'.'. $extension;
+            $destinationPath = public_path() . DIRECTORY_SEPARATOR .'img';
+            
+            //menyimpan cover ke folder public/img
+            
+            $uploded_cover->move($destinationPath,$filename);
+
+            //hapus cover lama
+            if($berita->cover) {
+                $old_cover=$berita->cover;
+                $filepath = public_path() . DIRECTORY_SEPARATOR .'img' 
+                . DIRECTORY_SEPARATOR .$berita->cover;
+
+                try{
+                 File::delete($filepath);
+                }catch (FileNotFoundException $e){
+                    //file sudah dihapus/tidak ada
+                }
+            }
+            //ganti field cover dengan cover baru
+            $berita->cover=$filename;
+            $berita->save();
+
+        }
+
+        Session::flash("flash_notification", [
+            "level"=>"success",
+            "message"=>"Berhasil menyimpan $berita->judul"
+            ]);
+        return redirect()->route('beritas.index');
     }
 
     /**
@@ -129,7 +182,27 @@ class BeritaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $berita = Berita::find($id);
+        $cover =$berita->cover;
+        if (!$berita->delete()) return redirect()->back();
+        //hapus cover lama, jika ada
+        if($cover)
+        {
+            $old_cover = $berita->cover;
+            $filepath = public_path().DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$berita->cover;
+            try {
+                File::delete($filepath);
+            } catch (FileNotFoundException $e) {
+                //file sudah dihapuys tidak ada
+            }
+        }
+
+
+        Session::flash("flash_notification",[
+            "level"=>"success",
+            "message"=>"Buku $berita->judul berhasil di hapus"
+            ]);
+        return redirect()->route('beritas.index');
     }
 }

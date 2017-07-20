@@ -19,8 +19,8 @@
 	<div class="col-md-4">
 		{!! Form::textarea('deskripsi', null, ['class'=>'form-control']) !!}
 		{!! $errors->first('deskripsi', '<p class="help-block">:message</p>') !!}
-		<!-- @if (isset($book))
-		<p class="help-block">{{$book->borrowed}}Buku sedang Dipinjam</p>
+		<!-- @if (isset($berita))
+		<p class="help-block">{{$berita->borrowed}}Buku sedang Dipinjam</p>
 		@endif -->
 	</div>
 </div>
@@ -32,7 +32,7 @@
 
 		@if(isset($berita) && $berita->cover)
 		<p>
-        {!! Html::image(asset('img/'.$book->cover.''),null,['class'=>'img-rounded img-responsive'])!!}
+        {!! Html::image(asset('img/'.$berita->cover.''),null,['class'=>'img-rounded img-responsive'])!!}
 		</p>
 		@endif
 
