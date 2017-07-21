@@ -11,20 +11,29 @@
 |
 */
 
+
+
 Route::get('/admin', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 /* Route::get('/', function () {
     return view('welcome');
 }); */
-Route::get('/', 'GuestController@index');
+//Route::get('/guests', 'GuestController@index');
+Route::group(['prefix'=>'guest'], function(){
+
+		Route::resource('home','GuestController');
+	});
+
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
 Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']], function(){
+
 		Route::resource('categoris','CategoriController');
 		Route::resource('beritas','BeritaController');
-		Route::resource('guests','GuestController');
+		Route::resource('home','AdminController');
 	});

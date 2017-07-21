@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use Laratrust\LaratrustFacade as Laratrust;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -21,8 +23,21 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+   public function index()
     {
+        if(Laratrust::hasRole('admin')) return $this->adminDashboard();
+        if(Laratrust::hasRole('guest')) return $this->guestDashboard();
         return view('home');
+    }
+    protected function adminDashboard()
+    {
+
+        return view('dashboard.admin');
+    }
+    protected function guestDashboard()
+    {
+
+        
+        return view('dashboard.guest');
     }
 }

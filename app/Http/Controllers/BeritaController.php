@@ -25,7 +25,10 @@ class BeritaController extends Controller
             $beritas = Berita::with('categori');
             return Datatables::of($beritas)
             ->addColumn('cover', function($beritas){
-                return '<img src="/img/'.$beritas->cover. '" height="100px" width="100px">';
+                return '<img src="/img/'.$beritas->cover. '" height="100px" width="200px">';
+            })
+            ->addColumn('spoiler', function($berita){
+              return '<a href="'.route('beritas.show',$berita->id).'">'.$berita->spoiler.'</a>';
             })
             ->addColumn('action', function($beritas){
             return view('datatable._action',[
@@ -105,7 +108,8 @@ class BeritaController extends Controller
      */
     public function show($id)
     {
-        //
+        $berita = Berita::find($id);
+        return view('beritas.show',compact('berita'));
     }
 
     /**

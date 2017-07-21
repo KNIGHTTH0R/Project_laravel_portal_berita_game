@@ -42,7 +42,7 @@ class GuestController extends Controller
               ->addColumn(['data'=>'spoiler','name'=>'spoiler','title'=>'Spoiler','orderable'=>false,'searchable'=>false])
               ->addColumn(['data'=>'categori.categori','name'=>'categori.categori','title'=>'Categori']);
              // ->addColumn(['data'=>'action','name'=>'action','title'=>'','orderable'=>false,'searchable'=>false]);
-              return view('guest.index')->with(compact('html'));
+              return view('admin.index')->with(compact('html'));
     }
 
 
@@ -77,7 +77,7 @@ class GuestController extends Controller
     public function show($id)
     {
         $berita = Berita::find($id);
-        return view('guest.show',compact('berita'));
+        return view('admin.show',compact('berita'));
     }
 
     /**

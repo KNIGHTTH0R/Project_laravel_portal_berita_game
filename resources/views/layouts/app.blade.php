@@ -51,9 +51,16 @@ background-color: rgba(10,10,10,0.6 );
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    @if(Auth::guest())
+                    <a class="navbar-brand" href="{{ url('/guest/home') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
+                    @endif
+                    @role('admin')
+                    <a class="navbar-brand" href="{{ url('/admin/beritas/') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                    @endrole
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -67,6 +74,7 @@ background-color: rgba(10,10,10,0.6 );
                         @if(Auth::guest())
                              <li><a href="{{ url('/categori') }}">
                                 <i class="fa fa-btn fa-folder-open"></i> Categori</a></li>
+                                <li> <a href="{{ url('/home') }}"> <i class="fa fa-btn fa-desktop"></i> Dashboard</a> </li>
                         @endif
                      @role('admin')
                           <li> <a href="{{route('categoris.index')}}"> 
