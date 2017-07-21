@@ -63,7 +63,11 @@ background-color: rgba(10,10,10,0.6 );
                         
                         <li> <a href="{{ url('/home') }}"> <i class="fa fa-btn fa-desktop"></i> Dashboard</a> </li>
 
-                     @endif
+                        @endif
+                        @if(Auth::guest())
+                             <li><a href="{{ url('/categori') }}">
+                                <i class="fa fa-btn fa-folder-open"></i> Categori</a></li>
+                        @endif
                      @role('admin')
                           <li> <a href="{{route('categoris.index')}}"> 
                             <i class="fa fa-btn fa-pencil"></i> Categori </a> </li>

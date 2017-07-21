@@ -19,6 +19,7 @@ Route::get('/admin', function () {
 }); */
 Route::get('/', 'GuestController@index');
 
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');

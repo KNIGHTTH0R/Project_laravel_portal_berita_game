@@ -6,6 +6,14 @@
 	</div>
 </div>
 
+<div class="form-group{{ $errors->has('spoiler') ? ' has-error' : '' }}">
+	{!! Form::label('spoiler', 'Spoiler', ['class'=>'col-md-2 control-label']) !!}
+	<div class="col-md-4">
+		{!! Form::text('spoiler', null, ['class'=>'form-control']) !!}
+		{!! $errors->first('spoiler', '<p class="help-block">:message</p>') !!}
+	</div>
+</div>
+
 <div class="form-group{{ $errors->has('categori_id') ? ' has-error' : '' }}">
 	{!! Form::label('categori_id', 'Categori', ['class'=>'col-md-2 control-label']) !!}
 	<div class="col-md-4">

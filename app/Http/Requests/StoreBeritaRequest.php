@@ -26,9 +26,10 @@ class StoreBeritaRequest extends FormRequest
     {
         return [
             'judul' =>'required|unique:beritas,judul',
+            'spoiler' => 'string',
             'categori_id' => 'required|exists:categoris,id',
             'deskripsi' => 'string',
-            'cover' => 'image|max:2048'
+            'cover' => 'image|max:10000'
         ];
     }
 

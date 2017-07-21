@@ -20,10 +20,10 @@ class BeritaSeeder extends Seeder
         $categori3 = Categori::create(['Categori'=>'RACING']);
 
         //sample berita
-        $berita1 = Berita::create(['judul'=>'Legend of Zenonia','deskripsi'=>'Kisah Petualangan','categori_id'=>$categori1->id]);
-        $berita2 = Berita::create(['judul'=>'Battlefiled','deskripsi'=>'Perang dunia ke 1','categori_id'=>$categori2->id]);
-        $berita3 = Berita::create(['judul'=>'Asphalt Runner','deskripsi'=>'Game Balapan Mobil Terbaru','categori_id'=>$categori3->id]);
-        $berita4 = Berita::create(['judul'=>'COD MWII','deskripsi'=>'Perang dunia ke 2','categori_id'=>$categori3->id]);
+        $berita1 = Berita::create(['judul'=>'Legend of Zenonia','spoiler'=>'Kisah Petualangan','deskripsi'=>'Kisah Petualangan','categori_id'=>$categori1->id]);
+        $berita2 = Berita::create(['judul'=>'Battlefiled','spoiler'=>'Perang dunia ke 1','deskripsi'=>'Perang dunia ke 1','categori_id'=>$categori2->id]);
+        $berita3 = Berita::create(['judul'=>'Asphalt Runner','spoiler'=>'Game Balap Mobil','deskripsi'=>'Game Balapan Mobil Terbaru','categori_id'=>$categori3->id]);
+        $berita4 = Berita::create(['judul'=>'COD MWII','spoiler'=>'Game Perang','deskripsi'=>'Perang dunia ke 2','categori_id'=>$categori3->id]);
 
         //Sempel Peminjaman Buku
   /* minjam      $member = User::where('email','member@gmail.com')->first();

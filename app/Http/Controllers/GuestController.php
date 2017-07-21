@@ -19,10 +19,10 @@ class GuestController extends Controller
             $berita = Berita::with('categori');
             return Datatables::of($berita)
             ->addColumn('cover', function($berita){
-              return '<img src="/img/'.$berita->cover. '" height="100px" width="100px">';
+              return '<img src="/img/'.$berita->cover. '" height="100px" width="100px" >';
             })
-            ->addColumn('deskripsi', function($berita){
-              return '<a href="'.route('guests.show',$berita->id).'">'.$berita->deskripsi.'</a>';
+            ->addColumn('spoiler', function($berita){
+              return '<a href="'.route('guests.show',$berita->id).'">'.$berita->spoiler.'</a>';
             })
             ->addColumn('stock',function($berita){
             return $berita->stock;
@@ -39,7 +39,7 @@ class GuestController extends Controller
 
               ->addColumn(['data'=>'cover','name'=>'cover','title'=>'Cover'])
               ->addColumn(['data'=>'judul','name'=>'judul','title'=>'Judul'])
-              ->addColumn(['data'=>'deskripsi','name'=>'deskripsi','title'=>'Deskripsi','orderable'=>false,'searchable'=>false])
+              ->addColumn(['data'=>'spoiler','name'=>'spoiler','title'=>'Spoiler','orderable'=>false,'searchable'=>false])
               ->addColumn(['data'=>'categori.categori','name'=>'categori.categori','title'=>'Categori'])
               ->addColumn(['data'=>'action','name'=>'action','title'=>'','orderable'=>false,
                            'searchable'=>false]);

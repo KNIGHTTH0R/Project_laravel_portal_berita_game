@@ -40,7 +40,8 @@ class BeritaController extends Controller
     $html = $htmlBuilder
             ->addColumn(['data'=>'cover','name'=>'cover','title'=>'Cover'])
             ->addColumn(['data'=>'judul','name'=>'judul','title'=>'Judul'])
-            ->addColumn(['data'=>'deskripsi','name'=>'deskripsi','title'=>'Deskripsi'])
+            ->addColumn(['data'=>'spoiler','name'=>'spoiler','title'=>'Spoiler'])
+           // ->addColumn(['data'=>'deskripsi','name'=>'deskripsi','title'=>'Deskripsi'])
             ->addColumn(['data'=>'categori.categori','name'=>'categori.categori','title'=>'Categori'])
             ->addColumn(['data'=>'action', 'name'=>'action', 'title'=>'', 'orderable'=>false,
                 'searchable'=>false]);
